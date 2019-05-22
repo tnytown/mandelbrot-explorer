@@ -8,6 +8,7 @@
 	  width: 100%;
 	  height: 100%;
 	  margin: 0;
+	  font-family: Verdana;
       }
       
       #wrapper {
@@ -17,17 +18,64 @@
       }
       
       #mandelbrot {
-	  padding: 0;
-	  margin: auto;
+	  padding: 10px;
 	  width: 840;
 	  height: 480;
-	  position: absolute;
+      }
+
+      #settings {
+	  padding: 10px;
+      }
+
+      .row {
+	  display: flex;
+	  flex-direction: row;
       }
     </style>
   </head>
   <body>
     <div id="wrapper">
       <canvas id="mandelbrot" width="840" height="480"></canvas>
+      <div id="settings">
+	<h3>Mandelbrot Explorer</h3>
+	<p style="font-size: 10px;">(AP Calculus BC, 2nd Period)</p>
+	
+	<h5>General Settings</h5>
+	<div class="label-group">
+	  <label for="escape">escape radius:</label>
+	  <input type="number" id="escape" value="50">
+	</div>
+
+	<label for="greyscale">color:</label>
+	<div class="label-group">
+	  <input type="radio" id="greyscale" name="color">
+	  <label for="greyscale">greyscale</label>
+	</div>
+	<div class="label-group">
+	  <input type="radio" id="colored" name="color" checked="checked">
+	  <label for="colored">colored</label>
+	</div>
+
+	
+	<h5>Window Settings</h5>
+	<div class="label-group">
+	  <label for="x_min">real bounds:</label>
+	  <div id="x-bounds" class="row">
+	    <input type="number" id="x_min" value="-2.5">
+	    <input type="number" id="x_max" value="1">
+	  </div>
+	</div>
+	<div class="label-group">
+	  <label for="y_min">imaginary bounds:</label>
+	  <div id="y-bounds" class="row">
+	    <input type="number" id="y_min" value="-1">
+	    <input type="number" id="y_max" value="1">
+	  </div>
+	</div>
+
+	<br>
+	<button id="redraw" onclick="window.redraw();">Poof!</button>
+      </div>
     </div>
   <script type="text/javascript" src="bundle.js"></script></body>
 </html>
