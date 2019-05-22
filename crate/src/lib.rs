@@ -3,6 +3,7 @@ use wasm_bindgen::Clamped;
 use web_sys::console;
 use web_sys::{CanvasRenderingContext2d, ImageData};
 use palette::{LinSrgb, Gradient};
+use lazy_static::lazy_static;
 
 use num_complex::Complex;
 
@@ -19,19 +20,26 @@ pub fn run() -> Result<(), JsValue> {
     Ok(())
 }
 
-const MAX_ITER: u32 = 1000;
+lazy_static! {
+
+}
+
 #[wasm_bindgen]
 pub fn render(ctx: &CanvasRenderingContext2d,
               escape: u32, greyscale: bool,
               width: u32, height: u32,
               x_min: f32, x_max: f32,
               y_min: f32, y_max: f32) {
-    let grad = Gradient::new(vec![
-        LinSrgb::new(0.0, 0.0, 0.0),
+    let GRAD_DEFAULT: Gradient<LinSrgb> = Gradient::new(vec![
+        LinSrgb::new(1.0, 0.0, 0.0),
         LinSrgb::new(0.0, 1.0, 1.0),
     ]);
+    let  GRAD_GREY: Gradient<LinSrgb> = Gradient::new(vec![
+        LinSrgb::new(0.0, 0.0, 0.0),
+        LinSrgb::new(1.0, 1.0, 1.0),
+    ]);
     
-    let mut data = Vec::with_capacity((4 * height*width) as usize); // RGBA for h*w pixels
+    let mut data = Vec::with_capacity((4 * height*width) as usize); // RGBA for h*w pixel
     for i in 0..height {
         for j in 0..width { // for all (i, j) pixels
             // setup
@@ -46,23 +54,20 @@ pub fn render(ctx: &CanvasRenderingContext2d,
                 z = z.powf(2.0) + c; // z_(n+1) = z_n^2+c
                 iter = iter + 1
             }
-
-            let scale = (iter / (escape - 1)) * (u32::max_value()-1);
             let mult = (iter as f32) / (escape as f32);
+
+            let mut grad = &GRAD_DEFAULT;
+            if greyscale {
+                grad = &GRAD_GREY;
+            }
+            
+            let (r, g, b) = grad.get(mult).into_components();
             
             // colors
-            if !greyscale {
-                let (r, g, b) = grad.get(mult).into_components();
-                data.push((r * 255.0) as u8); // r
-                data.push((g * 255.0) as u8); // g
-                data.push((b * 255.0) as u8); // b
-                data.push(255); // a - no transparency
-            } else {
-                data.push(mult as u8);
-                data.push(mult as u8);
-                data.push(mult as u8);
-                data.push(255);
-            }
+            data.push((r * 255.0) as u8); // r
+            data.push((g * 255.0) as u8); // g
+            data.push((b * 255.0) as u8); // b
+            data.push(255); // a - no transparency
         }
     }
 
