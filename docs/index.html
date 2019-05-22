@@ -59,6 +59,18 @@
 	
 	<h5>Window Settings</h5>
 	<div class="label-group">
+	  <label for="zoom">zoom:</label>
+	  <input type="number" id="zoom" value="1">
+	</div>
+	<div class="label-group">
+	  <label for="center_x">center:</label>
+	  <div id="center">
+	    <input type="number" id="center_x" value="0">
+	    <input type="number" id="center_y" value="0">
+	  </div>
+	</div>
+	<button id="zoomwindow" onclick="window.zoomWindow();">Zoom!</button>
+	<div class="label-group">
 	  <label for="x_min">real bounds:</label>
 	  <div id="x-bounds" class="row">
 	    <input type="number" id="x_min" value="-2.5">
