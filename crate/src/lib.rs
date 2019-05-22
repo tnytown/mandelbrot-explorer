@@ -18,7 +18,7 @@ pub fn run() -> Result<(), JsValue> {
     Ok(())
 }
 
-const MAX_ITER: u32 = 100;
+const MAX_ITER: u32 = 1000;
 #[wasm_bindgen]
 pub fn render(ctx: &CanvasRenderingContext2d,
               width: u32, height: u32,
@@ -42,7 +42,7 @@ pub fn render(ctx: &CanvasRenderingContext2d,
             
             // colors
             data.push((iter / 4) as u8); // r
-            data.push((iter / 2) as u8); // g
+            data.push((iter / 2) as u8); //1
             data.push(iter as u8); // b
             data.push(255); // a - no transparency
         }
