@@ -40,8 +40,8 @@ pub fn render(ctx: &CanvasRenderingContext2d,
     for i in 0..height {
         for j in 0..width { // for all (i, j) pixels
             // setup
-            let re = fit_to_window(i, (0.0, width as f32), (x_min, x_max)) as f64;
-            let im = fit_to_window(j, (0.0, height as f32), (y_min, y_max)) as f64; // fit re, im pixels to window
+            let re = fit_to_window(j, (0.0, width as f32), (x_min, x_max)) as f64;
+            let im = fit_to_window(i, (0.0, height as f32), (y_min, y_max)) as f64; // fit re, im pixels to window
 
             // iteration
             let mut z = Complex::new(0.0, 0.0);
