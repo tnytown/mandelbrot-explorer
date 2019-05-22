@@ -2,7 +2,7 @@ use wasm_bindgen::prelude::*;
 use wasm_bindgen::Clamped;
 use web_sys::console;
 use web_sys::{CanvasRenderingContext2d, ImageData};
-use palette::{LinSrgb, Gradient};
+use palette::{Hsv, LinSrgb, Gradient};
 use lazy_static::lazy_static;
 
 use num_complex::Complex;
@@ -30,13 +30,13 @@ pub fn render(ctx: &CanvasRenderingContext2d,
               width: u32, height: u32,
               x_min: f32, x_max: f32,
               y_min: f32, y_max: f32) {
-    let GRAD_DEFAULT: Gradient<LinSrgb> = Gradient::new(vec![
-        LinSrgb::new(1.0, 0.0, 0.0),
-        LinSrgb::new(0.0, 1.0, 1.0),
+    let GRAD_DEFAULT = Gradient::new(vec![
+        Hsv::from(LinSrgb::new(1.0, 0.0, 0.0)),
+        Hsv::from(LinSrgb::new(0.0, 1.0, 1.0)),
     ]);
-    let  GRAD_GREY: Gradient<LinSrgb> = Gradient::new(vec![
-        LinSrgb::new(0.0, 0.0, 0.0),
-        LinSrgb::new(1.0, 1.0, 1.0),
+    let  GRAD_GREY = Gradient::new(vec![
+        Hsv::from(LinSrgb::new(0.0, 0.0, 0.0)),
+        Hsv::from(LinSrgb::new(1.0, 1.0, 1.0)),
     ]);
     
     let mut data = Vec::with_capacity((4 * height*width) as usize); // RGBA for h*w pixel
@@ -61,7 +61,7 @@ pub fn render(ctx: &CanvasRenderingContext2d,
                 grad = &GRAD_GREY;
             }
             
-            let (r, g, b) = grad.get(mult).into_components();
+            let (r, g, b) = LinSrgb::from(grad.get(mult)).into_components();
             
             // colors
             data.push((r * 255.0) as u8); // r
