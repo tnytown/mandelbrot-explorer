@@ -45,7 +45,7 @@ pub fn render(ctx: &CanvasRenderingContext2d,
             data.push((iter / 2) as u8); // g
             data.push(iter as u8); // b
             data.push(255); // a - no transparency
-        }
+        }c
     }
 
     let data = ImageData::new_with_u8_clamped_array_and_sh(Clamped(&mut data), width, height).unwrap();

@@ -17,9 +17,6 @@ import("../crate/pkg").then(module => {
 });
 
 function redraw() {
-    params.canvas.canvas.width = 840;
-    params.canvas.canvas.height = 480;
-    
     window.module.render(params.canvas, params.canvas.canvas.width, params.canvas.canvas.height,
 			 params.bounds.xmin, params.bounds.xmax,
 			 params.bounds.ymin, params.bounds.ymax);
